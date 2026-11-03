@@ -1,6 +1,4 @@
 import math
-
-
 def average_rating(movies):
     """Возвращает среднюю оценку фильмов."""
     total = 0
@@ -39,6 +37,36 @@ test_movies = [
     {"title": "Фильм 3", "year": 2010, "rating": 9.0},
 ]
 
+def rating_tier(rating):
+    """Определяет категорию фильма по рейтингу."""
+    if rating >= 9:
+        return "шедевр"
+    elif rating >= 7:
+        return "хорошо"
+    elif rating >= 5:
+        return "средне" if rating >= 5 else "слабо"
+    else:
+        return "слабо"
+
+
+def decade_label(year):
+    """Определяет категорию фильма по году выпуска."""
+    match year:
+        case _ if year > 2020:
+            return "новые"
+        case _ if year >= 2015:
+            return "недавние"
+        case _:
+            return "старые"
+
 print(average_rating(test_movies))
 print(catalog_age_stats(test_movies))
 print(convert_minutes(135))
+print(rating_tier(9.5))
+print(rating_tier(8.2))
+print(rating_tier(6.0))
+print(rating_tier(3.5))
+print(decade_label(2024))
+print(decade_label(2018))
+print(decade_label(2010))
+print(decade_label(2020))
