@@ -45,10 +45,8 @@ def rating_tier(rating):
         return "шедевр"
     elif rating >= 7:
         return "хорошо"
-    elif rating >= 5:
-        return "средне" if rating >= 5 else "слабо"
     else:
-        return "слабо"
+        return "средне" if rating >= 5 else "слабо"
 
 
 def decade_label(year):
@@ -124,6 +122,33 @@ def format_report_line(movie):
 
     return f"{title} ({year}) | Оценка: {rating} | {duration} | Жанры: {genres}"
 
+
+def titles_sorted_by_rating(movies):
+    """Возвращает названия фильмов по убыванию рейтинга."""
+    sorted_movies = sorted(
+        movies,
+        key=lambda movie: movie["rating"],
+        reverse=True,
+    )
+
+    return [movie["title"] for movie in sorted_movies]
+
+
+def top_n_by_rating(movies, n=3):
+    """Возвращает первые n фильмов в виде пар (название, рейтинг)."""
+    sorted_movies = sorted(
+        movies,
+        key=lambda movie: movie["rating"],
+        reverse=True,
+    )
+
+    return [
+        (movie["title"], movie["rating"])
+        for movie in sorted_movies[:n]
+    ]
+
+
+
 test_movie = {
     "title": "the silent city",
     "year": 2020,
@@ -131,6 +156,7 @@ test_movie = {
     "duration_min": 155,
     "genres": {"drama", "thriller"},
 }
+
 
 print(format_report_line(test_movie))
 
@@ -146,3 +172,5 @@ print(decade_label(2024))
 print(decade_label(2018))
 print(decade_label(2010))
 print(decade_label(2020))
+print(top_n_by_rating(test_movies))
+print(top_n_by_rating(test_movies, 2))
