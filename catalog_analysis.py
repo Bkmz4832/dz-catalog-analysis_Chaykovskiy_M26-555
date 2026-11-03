@@ -1,3 +1,5 @@
+import math
+
 movies = [
     {
         "title": "The Dune Chronicles",
@@ -104,7 +106,7 @@ def catalog_age_stats(movies, current_year=2026):
 
     oldest_age = max(ages)
     newest_age = min(ages)
-    average_age = round(sum(ages) / len(ages))
+    average_age = math.ceil(sum(ages) / len(ages)) 
 
     return oldest_age, newest_age, average_age
 
