@@ -26,12 +26,12 @@ def catalog_age_stats(movies, current_year=2026):
     return oldest_age, newest_age, average_age
 
 
-def convert_minutes(minutes):
-    """Преобразует минуты в часы и оставшиеся минуты."""
+def duration_in_hours(minutes):
+    """Преобразует минуты в строку с часами и минутами."""
     hours = minutes // 60
     remaining_minutes = minutes % 60
 
-    return hours, remaining_minutes
+    return f"{hours}ч {remaining_minutes}м"
 
 test_movies = [
     {"title": "Фильм 1", "year": 2000, "rating": 8.5},
@@ -97,9 +97,47 @@ def count_long_movies(movies, threshold=120):
 
     return count
 
+
+def normalize_title(title):
+    """Приводит название фильма к правильному регистру."""
+    words = title.split()
+    normalized_words = []
+
+    for word in words:
+        normalized_words.append(word[0].upper() + word[1:])
+
+    return " ".join(normalized_words)
+
+
+def make_slug(title):
+    """Создаёт slug из названия фильма."""
+    return title.lower().replace(" ", "-")
+
+
+def format_report_line(movie):
+    """Формирует строку с информацией о фильме."""
+    title = normalize_title(movie["title"])
+    rating = movie["rating"]
+    year = movie["year"]
+    duration = duration_in_hours(movie["duration_min"])
+    genres = ", ".join(sorted(movie["genres"]))
+
+    return f"{title} ({year}) | Оценка: {rating} | {duration} | Жанры: {genres}"
+
+test_movie = {
+    "title": "the silent city",
+    "year": 2020,
+    "rating": 8.5,
+    "duration_min": 155,
+    "genres": {"drama", "thriller"},
+}
+
+print(format_report_line(test_movie))
+
+print(make_slug("Silent Hours"))
 print(average_rating(test_movies))
 print(catalog_age_stats(test_movies))
-print(convert_minutes(135))
+print(duration_in_hours(155))
 print(rating_tier(9.5))
 print(rating_tier(8.2))
 print(rating_tier(6.0))
